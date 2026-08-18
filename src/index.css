@@ -109,3 +109,10 @@ code {
   padding: 4px 8px;
   background: var(--code-bg);
 }
+
+.workshop-card {
+  border: 1px solid #aaa;
+  padding: 8px;
+  width: 300px;
+  margin: 12px auto;
+}
