@@ -1,23 +1,5 @@
 // src/App.jsx
-
-function WorkshopCard(props) {
-
-  //console.log(props);
-
-  //return JSON.stringify(props);
-
-  // kopplr data från props till mina variabler
-  // const title = props.title;
-  // const description = props.description;
-  // const price = props.price;
-
-  return (<article className="workshop-card">
-            <img src="https://picsum.photos/200" alt="random picture"/>
-            <h3>{props.title}</h3>
-            <p>{props.description}</p>
-            <small>Pris: {props.price}</small>
-          </article>);
-}
+import WorkshopCard from "./components/WorkshopCard";
 
 // Ovning
 // name, proffession, age, profile picture
@@ -42,9 +24,24 @@ function App() {
   return (
     <main>
       <h1>{title}</h1>
-      <WorkshopCard title={workshops[0].title} description={workshops[0].description} price={workshops[0].price}/>
-      <WorkshopCard title={workshops[1].title} description={workshops[1].description} price={workshops[1].price}/>
-      <WorkshopCard title={workshops[2].title} description={workshops[2].description} price={workshops[2].price}/>
+      <WorkshopCard 
+        title="Keramik för nybörjare"
+        category="Hantverk" // NY
+        durationMinutes={120} // NY
+        priceSek={350} // price -> priceSek
+        location="stockholm"
+      />
+
+      <WorkshopCard 
+        title="Virke för nybörjare"
+        category="Hantverk" // NY
+        durationMinutes={150} // NY
+        priceSek={250} // price -> priceSek
+        location="göteborg"
+      />
+
+      {/* uppgift: Lägg till ett nytt workshopCard med ny titel, kategori, etc */}
+      {/* uppgift2: Lägg till en ny prop (egenskap) location som ska kunnas ritas ut */}
     </main>
   );
 }
