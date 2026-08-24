@@ -1,8 +1,17 @@
 // src/App.jsx
 //import WorkshopCard from "./components/WorkshopCard/WorkshopCard";
+import { useState } from "react";
 import WorkshopList from "./components/WorkshopList";
 
 function App() {
+  const [selectedWorkshopId, setSelectedWorkshopId] = useState(null);
+
+  const pickWorkshopId = (id) => {
+    // setSelectedWorkshopId beskriver hur den state-fulla variabel förändras
+    // react kommer då kunna reagera och rita om DOMen
+    setSelectedWorkshopId(selectedWorkshopId => id);
+  }
+
 
   // från databas med workshops
   const workshops = [
@@ -21,7 +30,7 @@ function App() {
     },
     {
       id: "virke",
-      title: "Keramik för nybörjare",
+      title: "Virke för nybörjare",
       category: "Hantverk",
       description: "Arbeta med gottlänskt ullgarn.",
       durationMinutes: 90,
@@ -53,11 +62,37 @@ function App() {
 
   // Ovning 1 - map
   // const people = [{id: 1, name:"Henry", age: 33}, {id: 2, name: "Konrad", age: 31}, {id: 3, name: "Sara", age: 39}]
+  
+  // en vanlig varibel fungerar inte om vi vill att react ska regera på förändringar
+  // istället ska vi använda en så kallad hook som kallas useState
+  // -- let count = 0;
+
+  // useState skapar en speciel variabel som react håller koll på
+  // Den kommer uppdatera DOMen om förändring sker
+  // const [count, setCount] = useState(10); 
+
+  // const increment = () => {
+  //   //count = count + 1;  // manuel förändring fungerar ej. vi ska använda setCount istället
+  //   setCount(count => count + 1); // beskriv hur värdet ska ändras med en funktion
+  //   console.log(count) 
+  // }
+
+  // const decrement = () => {
+  //   // Uppgift: minska count med 1 vid knapptryck
+  //   setCount(count => count - 1); // beskriv hur värdet ska ändras med en funktion
+  // }
 
   return (
     <main>
+      {/* <h2>Räknare exempel</h2>
+      <p>Nyvarande count: {count}</p>
+      <button onClick={increment}>+</button>
+      <button onClick={decrement}>-</button> */}
+
       <h1>{title}</h1>
-      <WorkshopList workshops={workshops}/>
+
+      {/* <button onClick={() => pickWorkshopId('test-workshop')}>Test</button> */}
+      <WorkshopList workshops={workshops} selectedWorkshopId={selectedWorkshopId} handleWorkshopPick={pickWorkshopId}/>
 
       {/* Använd map för att rita ut varje person i en paragraph t.ex <p>Henry is 33 years old.</p> */}
       {/* {people.map(person => <p key={person.id}>{person.name} is {person.age} years old.</p>)} */}

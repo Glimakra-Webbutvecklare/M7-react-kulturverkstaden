@@ -1,8 +1,9 @@
 import "./WorkshopCard.css";
 
-export default function WorkshopCard({ workshop }) {
+export default function WorkshopCard({ workshop, handleWorkshopPick, selectedWorkshopId }) {
 
-  console.log('incoming workshop to card', workshop);
+
+
   return (<article className="workshop-card">
             <h3>{workshop.title}</h3>
             <h4>Plats: {workshop.location}</h4>
@@ -15,7 +16,12 @@ export default function WorkshopCard({ workshop }) {
               {/* <li>{workshop.slots[0].startsAt}, platser kvar: {workshop.slots[0].placesLeft}</li>
               <li>{workshop.slots[1].startsAt}, platser kvar: {workshop.slots[1].placesLeft}</li>
               <li>{workshop.slots[2].startsAt}, platser kvar: {workshop.slots[2].placesLeft}</li> */}
-              {workshop.slots.map(slot => <li key={slot.id}>{slot.startsAt}, platser kvar: {slot.placesLeft}</li>)}
+              {workshop.slots.map(slot => <li key={slot.id}>
+                                            {slot.startsAt}, platser kvar: {slot.placesLeft} 
+                                            <button
+                                            className={slot.id === selectedWorkshopId ? 'selected-button': ''}
+                                            onClick={() => handleWorkshopPick(slot.id)}>{ slot.id === selectedWorkshopId ? 'Vald' : 'Välj' }</button>
+                                          </li>)}
             </ul>
           </article>);
 }
