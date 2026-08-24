@@ -1,47 +1,66 @@
 // src/App.jsx
-import WorkshopCard from "./components/WorkshopCard";
-
-// Ovning
-// name, proffession, age, profile picture
-function ProfileCard() {}
-
+//import WorkshopCard from "./components/WorkshopCard/WorkshopCard";
+import WorkshopList from "./components/WorkshopList";
 
 function App() {
 
   // från databas med workshops
-  const workshops = [{id: "keramik", title: "Keramik", description: "Nybörjarkurs med fokus på skånsk rålera.",price: 100}, 
-                     {id: "virka", title: "Virke",description: "Nybörjarkurs med fokus på gottlänskt ullgarn.", price: 200}, 
-                     {id: "oljemalning", title: "Oljemålning", description: "Nybörjarkurs med fokus på smålänsk råolja.", price: 350}]
+  const workshops = [
+    {
+      id: "keramik",
+      title: "Keramik för nybörjare",
+      category: "Hantverk",
+      description: "Forma skånsk rålera.",
+      durationMinutes: 120,
+      priceSek: 350,
+      location: "Glimåkra",
+      slots: [
+        { id: "keramik-tis", startsAt: "Tisdag 18.00", placesLeft: 8 },
+        { id: "keramik-tor", startsAt: "Torsdag 18.00", placesLeft: 2 },
+      ],
+    },
+    {
+      id: "virke",
+      title: "Keramik för nybörjare",
+      category: "Hantverk",
+      description: "Arbeta med gottlänskt ullgarn.",
+      durationMinutes: 90,
+      priceSek: 450,
+      location: "Osby",
+      slots: [
+        { id: "virke-mon", startsAt: "Måndag 18.00", placesLeft: 6 },
+        { id: "virke-ons", startsAt: "Onsdag 18.00", placesLeft: 3 },
+      ],
+    },
+    {
+      id: "oljemalning",
+      title: "Oljemålning för nybörjare",
+      category: "Konst",
+      description: "Måla med linolja på gammeldags duk",
+      durationMinutes: 60,
+      priceSek: 250,
+      location: "Hässleholm",
+      slots: [
+        { id: "oljemalning-tis", startsAt: "Tisdag 18.00", placesLeft: 4 },
+        { id: "oljemalning-tor", startsAt: "Torsdag 18.00", placesLeft: 1 },
+        { id: "oljemalning-fre", startsAt: "Fredag 18.00", placesLeft: 2 },
+      ],
+    }
+  ]
 
   const title = "Kulturverkstaden";
-  // done: skapa varibel för decription
-  const description = "Min beskrivning";
 
 
-  const myWorkshop = {id: "talja", title: "Täljning", price: 220};
-  const openPlaces = 12;
+  // Ovning 1 - map
+  // const people = [{id: 1, name:"Henry", age: 33}, {id: 2, name: "Konrad", age: 31}, {id: 3, name: "Sara", age: 39}]
 
   return (
     <main>
       <h1>{title}</h1>
-      <WorkshopCard 
-        title="Keramik för nybörjare"
-        category="Hantverk" // NY
-        durationMinutes={120} // NY
-        priceSek={350} // price -> priceSek
-        location="stockholm"
-      />
+      <WorkshopList workshops={workshops}/>
 
-      <WorkshopCard 
-        title="Virke för nybörjare"
-        category="Hantverk" // NY
-        durationMinutes={150} // NY
-        priceSek={250} // price -> priceSek
-        location="göteborg"
-      />
-
-      {/* uppgift: Lägg till ett nytt workshopCard med ny titel, kategori, etc */}
-      {/* uppgift2: Lägg till en ny prop (egenskap) location som ska kunnas ritas ut */}
+      {/* Använd map för att rita ut varje person i en paragraph t.ex <p>Henry is 33 years old.</p> */}
+      {/* {people.map(person => <p key={person.id}>{person.name} is {person.age} years old.</p>)} */}
     </main>
   );
 }
