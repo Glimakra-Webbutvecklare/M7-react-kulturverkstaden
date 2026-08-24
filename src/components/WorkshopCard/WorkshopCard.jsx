@@ -4,7 +4,6 @@ export default function WorkshopCard({ workshop }) {
 
   console.log('incoming workshop to card', workshop);
   return (<article className="workshop-card">
-            <img src="https://picsum.photos/200" alt="random picture"/>
             <h3>{workshop.title}</h3>
             <h4>Plats: {workshop.location}</h4>
             <p>{workshop.category}</p>

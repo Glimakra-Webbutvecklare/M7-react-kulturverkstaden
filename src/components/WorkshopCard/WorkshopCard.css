@@ -1,6 +1,39 @@
 .workshop-card {
-  border: 1px solid #aaa;
-  padding: 8px;
-  width: 300px;
-  margin: 12px auto;
+  display: grid;
+  gap: 0.5rem;
+  padding: 1rem 1.1rem;
+  color: #17212b;
+  text-align: left;
+  background: #fff;
+  border: 1px solid #aab6c1;
+  border-radius: 0.75rem;
+  box-shadow: 0 16px 44px rgb(23 33 43 / 10%);
+}
+
+.workshop-card img {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  border-radius: 0.45rem;
+}
+
+.workshop-card h3,
+.workshop-card h4,
+.workshop-card p,
+.workshop-card ul {
+  margin: 0;
+}
+
+.workshop-card h4,
+.workshop-card small,
+.workshop-card li {
+  color: #5b6773;
+}
+
+.workshop-card p {
+  color: #1769aa;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
 }

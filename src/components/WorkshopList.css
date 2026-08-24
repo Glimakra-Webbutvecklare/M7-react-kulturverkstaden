@@ -1,0 +1,8 @@
+.workshop-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
+  gap: 2rem;
+  width: min(100%, 64rem);
+  margin-inline: auto;
+  padding: 1rem;
+}

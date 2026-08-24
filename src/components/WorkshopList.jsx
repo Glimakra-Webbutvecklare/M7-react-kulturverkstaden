@@ -1,11 +1,12 @@
 import WorkshopCard from "./WorkshopCard/WorkshopCard";
+import "./WorkshopList.css";
 
 // vill: ta emot props som innehåller all workshop data
 // lista alla works med WorkshopCard
 
 function WorkshopList({ workshops }) {
    console.log('workshops', workshops);
-    return (<div>
+    return (<div className="workshop-list">
         {/* <WorkshopCard title={workshops[0].title} location={"Glimåkra"}/>
         <WorkshopCard title={workshops[1].title} location={"Glimåkra"}/>
         <WorkshopCard title={workshops[2].title} location={"Glimåkra"}/> */}
