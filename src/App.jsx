@@ -5,7 +5,7 @@ import WorkshopList from "./components/WorkshopList";
 import BookingForm from "./components/BookingForm/BookingForm";
 
 function App() {
-  const [selectedWorkshopId, setSelectedWorkshopId] = useState(null);
+  const [selectedSlotId, setSelectedSlotId] = useState(null);
   // från databas med workshops
   const [workshops, setWorkshops] = useState([
     {
@@ -51,9 +51,9 @@ function App() {
   ]);
 
   const pickWorkshopId = (id) => {
-    // setSelectedWorkshopId beskriver hur den state-fulla variabel förändras
+    // setSelectedSlotId beskriver hur den state-fulla variabel förändras
     // react kommer då kunna reagera och rita om DOMen
-    setSelectedWorkshopId(selectedWorkshopId => id);
+    setSelectedSlotId(selectedSlotId => id);
   }
 
   // möjliggör ta reservera en plats
@@ -104,7 +104,7 @@ function App() {
   // }
 
   // hjälpvariabel för att öka läsbarheten
-  const hasChosenWorkshop = selectedWorkshopId !== null;
+  const hasChosenWorkshop = selectedSlotId !== null;
 
   return (
     <main>
@@ -117,14 +117,14 @@ function App() {
 
       {/* Vi kan använder Tenary operator (?) för att sätta vilkor 
       när något ska ritas ut. <Vilkor> ? <OM sant> : <Om falskt> */}
-      {/* { selectedWorkshopId !== null ? <BookingForm /> : ''} */}
+      {/* { selectedSlotId !== null ? <BookingForm /> : ''} */}
 
       {/* Ett alternativ om man ej vill ha ett alternativ för falsk */}
-      {hasChosenWorkshop && <BookingForm selectedWorkshopId={selectedWorkshopId} reserveSpot={reserveSpot}/>}
+      {hasChosenWorkshop && <BookingForm selectedSlotId={selectedSlotId} reserveSpot={reserveSpot}/>}
 
 
       {/* <button onClick={() => pickWorkshopId('test-workshop')}>Test</button> */}
-      <WorkshopList workshops={workshops} selectedWorkshopId={selectedWorkshopId} handleWorkshopPick={pickWorkshopId}/>
+      <WorkshopList workshops={workshops} selectedSlotId={selectedSlotId} handleWorkshopPick={pickWorkshopId}/>
 
       {/* Använd map för att rita ut varje person i en paragraph t.ex <p>Henry is 33 years old.</p> */}
       {/* {people.map(person => <p key={person.id}>{person.name} is {person.age} years old.</p>)} */}

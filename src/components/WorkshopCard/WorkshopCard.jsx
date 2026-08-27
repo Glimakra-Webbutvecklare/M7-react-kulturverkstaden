@@ -1,6 +1,6 @@
 import "./WorkshopCard.css";
 
-export default function WorkshopCard({ workshop, handleWorkshopPick, selectedWorkshopId }) {
+export default function WorkshopCard({ workshop, handleWorkshopPick, selectedSlotId }) {
 
 
 
@@ -21,8 +21,8 @@ export default function WorkshopCard({ workshop, handleWorkshopPick, selectedWor
 
                                             { slot.placesLeft > 0 && 
                                                   <button
-                                                  className={slot.id === selectedWorkshopId ? 'selected-button': ''}
-                                                  onClick={() => handleWorkshopPick(slot.id)}>{ slot.id === selectedWorkshopId ? 'Vald' : 'Välj' }</button>
+                                                  className={slot.id === selectedSlotId ? 'selected-button': ''}
+                                                  onClick={() => handleWorkshopPick(slot.id)}>{ slot.id === selectedSlotId ? 'Vald' : 'Välj' }</button>
                                             }
                                           </li>)}
             </ul>
