@@ -2,19 +2,12 @@
 //import WorkshopCard from "./components/WorkshopCard/WorkshopCard";
 import { useState } from "react";
 import WorkshopList from "./components/WorkshopList";
+import BookingForm from "./components/BookingForm/BookingForm";
 
 function App() {
   const [selectedWorkshopId, setSelectedWorkshopId] = useState(null);
-
-  const pickWorkshopId = (id) => {
-    // setSelectedWorkshopId beskriver hur den state-fulla variabel förändras
-    // react kommer då kunna reagera och rita om DOMen
-    setSelectedWorkshopId(selectedWorkshopId => id);
-  }
-
-
   // från databas med workshops
-  const workshops = [
+  const [workshops, setWorkshops] = useState([
     {
       id: "keramik",
       title: "Keramik för nybörjare",
@@ -55,7 +48,35 @@ function App() {
         { id: "oljemalning-fre", startsAt: "Fredag 18.00", placesLeft: 2 },
       ],
     }
-  ]
+  ]);
+
+  const pickWorkshopId = (id) => {
+    // setSelectedWorkshopId beskriver hur den state-fulla variabel förändras
+    // react kommer då kunna reagera och rita om DOMen
+    setSelectedWorkshopId(selectedWorkshopId => id);
+  }
+
+  // möjliggör ta reservera en plats
+  // på angiven workshop
+  const reserveSpot = (workshopId) => {
+    // vi behöver skapa en helt ny array 
+    // med den nya förändringen
+    const newWorkshops = [...workshops];
+    // gå igenom alla workshops
+    for (const workshop of newWorkshops) {
+      // gå igenom alla slots
+      for (const slot of workshop.slots) {
+        // om vi hittar rätt slot som ska reserveras..
+        if (slot.id === workshopId && slot.placesLeft > 0) {
+          slot.placesLeft -= 1; // ta bort ett
+        }
+      }
+    }
+
+    setWorkshops(workshops => newWorkshops)
+  }
+
+
 
   const title = "Kulturverkstaden";
 
@@ -69,7 +90,7 @@ function App() {
 
   // useState skapar en speciel variabel som react håller koll på
   // Den kommer uppdatera DOMen om förändring sker
-  // const [count, setCount] = useState(10); 
+  const [count, setCount] = useState(10); 
 
   // const increment = () => {
   //   //count = count + 1;  // manuel förändring fungerar ej. vi ska använda setCount istället
@@ -82,6 +103,9 @@ function App() {
   //   setCount(count => count - 1); // beskriv hur värdet ska ändras med en funktion
   // }
 
+  // hjälpvariabel för att öka läsbarheten
+  const hasChosenWorkshop = selectedWorkshopId !== null;
+
   return (
     <main>
       {/* <h2>Räknare exempel</h2>
@@ -90,6 +114,14 @@ function App() {
       <button onClick={decrement}>-</button> */}
 
       <h1>{title}</h1>
+
+      {/* Vi kan använder Tenary operator (?) för att sätta vilkor 
+      när något ska ritas ut. <Vilkor> ? <OM sant> : <Om falskt> */}
+      {/* { selectedWorkshopId !== null ? <BookingForm /> : ''} */}
+
+      {/* Ett alternativ om man ej vill ha ett alternativ för falsk */}
+      {hasChosenWorkshop && <BookingForm selectedWorkshopId={selectedWorkshopId} reserveSpot={reserveSpot}/>}
+
 
       {/* <button onClick={() => pickWorkshopId('test-workshop')}>Test</button> */}
       <WorkshopList workshops={workshops} selectedWorkshopId={selectedWorkshopId} handleWorkshopPick={pickWorkshopId}/>

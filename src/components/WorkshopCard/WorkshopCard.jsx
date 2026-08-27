@@ -17,10 +17,13 @@ export default function WorkshopCard({ workshop, handleWorkshopPick, selectedWor
               <li>{workshop.slots[1].startsAt}, platser kvar: {workshop.slots[1].placesLeft}</li>
               <li>{workshop.slots[2].startsAt}, platser kvar: {workshop.slots[2].placesLeft}</li> */}
               {workshop.slots.map(slot => <li key={slot.id}>
-                                            {slot.startsAt}, platser kvar: {slot.placesLeft} 
-                                            <button
-                                            className={slot.id === selectedWorkshopId ? 'selected-button': ''}
-                                            onClick={() => handleWorkshopPick(slot.id)}>{ slot.id === selectedWorkshopId ? 'Vald' : 'Välj' }</button>
+                                            {slot.startsAt}, platser kvar: {slot.placesLeft}
+
+                                            { slot.placesLeft > 0 && 
+                                                  <button
+                                                  className={slot.id === selectedWorkshopId ? 'selected-button': ''}
+                                                  onClick={() => handleWorkshopPick(slot.id)}>{ slot.id === selectedWorkshopId ? 'Vald' : 'Välj' }</button>
+                                            }
                                           </li>)}
             </ul>
           </article>);
