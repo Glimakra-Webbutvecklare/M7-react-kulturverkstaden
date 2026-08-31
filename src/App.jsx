@@ -1,10 +1,27 @@
 // src/App.jsx
-//import WorkshopCard from "./components/WorkshopCard/WorkshopCard";
 import { useState } from "react";
+import { Routes, Route } from "react-router-dom";
 import WorkshopList from "./components/WorkshopList";
 import BookingForm from "./components/BookingForm/BookingForm";
+import HomePage from "./pages/HomePage";
+import WorkshopsPage from "./pages/WorkshopsPage";
+import NotFoundPage from "./pages/NotFoundPage";
+
+// Upgift: refaktorera sid-komponenterna till en egen map
+// som heter `pages`
+// importera in i App.jsx få sidorna att fungera som innan
 
 function App() {
+
+  return (<Routes>
+    <Route path="/" element={<HomePage /> } /> 
+    {/* Uppgift: Lägg till en ny Route: /workshops -> <h1>Workshops Page</h1> */}
+    <Route path="/workshops" element={ <WorkshopsPage /> } /> 
+
+    {/* Refaktorera sidan till pages/NotFoundPage.jsx */}
+    <Route path="*" element={<NotFoundPage />}/>
+  </Routes>);
+
   const [selectedSlotId, setSelectedSlotId] = useState(null);
   // från databas med workshops
   const [workshops, setWorkshops] = useState([
