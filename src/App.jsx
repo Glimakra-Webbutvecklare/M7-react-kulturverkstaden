@@ -13,16 +13,6 @@ import NotFoundPage from "./pages/NotFoundPage";
 
 function App() {
 
-  return (<Routes>
-    <Route path="/" element={<HomePage /> } /> 
-    {/* Uppgift: Lägg till en ny Route: /workshops -> <h1>Workshops Page</h1> */}
-    <Route path="/workshops" element={ <WorkshopsPage /> } /> 
-
-    {/* Refaktorera sidan till pages/NotFoundPage.jsx */}
-    <Route path="*" element={<NotFoundPage />}/>
-  </Routes>);
-
-  const [selectedSlotId, setSelectedSlotId] = useState(null);
   // från databas med workshops
   const [workshops, setWorkshops] = useState([
     {
@@ -66,6 +56,19 @@ function App() {
       ],
     }
   ]);
+
+  return (<Routes>
+    <Route path="/" element={<HomePage /> } /> 
+    {/* Uppgift: Lägg till en ny Route: /workshops -> <h1>Workshops Page</h1> */}
+    {/* Uppgift: Lägg till en url parameter 'category' och skriv ut `Category: <category-från-url> i WorkshopPage` */}
+    <Route path="/workshops/:category" element={ <WorkshopsPage workshops={workshops}/> } /> 
+
+    {/* Refaktorera sidan till pages/NotFoundPage.jsx */}
+    <Route path="*" element={<NotFoundPage />}/>
+  </Routes>);
+
+  const [selectedSlotId, setSelectedSlotId] = useState(null);
+
 
   const pickWorkshopId = (id) => {
     // setSelectedSlotId beskriver hur den state-fulla variabel förändras
