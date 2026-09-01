@@ -4,13 +4,25 @@ import { Routes, Route } from "react-router-dom";
 import WorkshopList from "./components/WorkshopList";
 import BookingForm from "./components/BookingForm/BookingForm";
 import HomePage from "./pages/HomePage";
-import WorkshopsPage from "./pages/WorkshopsPage";
+import BookingPage from "./pages/BookingPage";
+import DetailsPage from "./pages/DetailsPage";
 import NotFoundPage from "./pages/NotFoundPage";
 
 // Upgift: refaktorera sid-komponenterna till en egen map
 // som heter `pages`
 // importera in i App.jsx få sidorna att fungera som innan
 
+// övning 1: 
+// givet en array numbers = [2,3,4,5]
+// använd map för att skapa en array [4,6,8,10]
+//const numbers = [2,3,4,5]
+//numbers.map((number ) => number*2)
+
+// övning 2:
+// givet en array dogs = [{name: "Max", breed: "Labrador"}, { name: "Winston", breed: "Dasch"}]
+// använd map för att skapa en array ["Max, Labrador", "Winston, Dasch"]
+//const dogs = [{name: "Max", breed: "Labrador"}, { name: "Winston", breed: "Dasch"}]
+//dogs.map(dog => `${dog.name}, ${dog.breed}` )
 function App() {
 
   // från databas med workshops
@@ -58,10 +70,12 @@ function App() {
   ]);
 
   return (<Routes>
-    <Route path="/" element={<HomePage /> } /> 
+    <Route path="/" element={<HomePage workshops={workshops} /> } /> 
+    <Route path="/workshops/:workshopId" element={ <DetailsPage workshops={workshops} /> } />
+    <Route path="/book/:workshopId" element={ <BookingPage workshops={workshops} /> } />
     {/* Uppgift: Lägg till en ny Route: /workshops -> <h1>Workshops Page</h1> */}
     {/* Uppgift: Lägg till en url parameter 'category' och skriv ut `Category: <category-från-url> i WorkshopPage` */}
-    <Route path="/workshops/:category" element={ <WorkshopsPage workshops={workshops}/> } /> 
+    {/* <Route path="/workshops/:category?" element={ <WorkshopsPage workshops={workshops}/> } />  */}
 
     {/* Refaktorera sidan till pages/NotFoundPage.jsx */}
     <Route path="*" element={<NotFoundPage />}/>

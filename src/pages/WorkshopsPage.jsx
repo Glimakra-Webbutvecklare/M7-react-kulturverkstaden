@@ -13,10 +13,15 @@ export default function WorkshopsPage({ workshops }) {
 
   const { category } = useParams();
 
+
+  const categoryChecked = !category ? "" : category.toLowerCase();
+
+  const shouldIncludeAll = categoryChecked.length === 0;
+
   // Vill: sortera eller filtrera workshops 
   // utifrån vald categori
   const filteredWorkshops = workshops
-                                  .filter( workshop => workshop.category.toLowerCase() === category.toLowerCase()) 
+                                  .filter( workshop => workshop.category.toLowerCase() === categoryChecked || shouldIncludeAll ) 
 
   // givet en array med namn ["bob", "lisa", "daniel"]
   // mappa ut dem till <p>bob</p><p>lisa</p><p>daniel</p>
@@ -25,7 +30,7 @@ export default function WorkshopsPage({ workshops }) {
   
   return (<main>
     <h1>Workshops Page</h1>
-    <p>category: {category.toLowerCase()}</p>
+    <p>category: {shouldIncludeAll ? "All Categories" : categoryChecked}</p>
     <p>Tillbaka <Link to="/">hem</Link></p>
     {/* Uppgift: Mappa ut alla workshops med workshopscard */}
     {/* {workshops.map( workshop => <WorkshopCard key={workshop.id} workshop={workshop}/> )} */}
