@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-function BookingForm({selectedSlotId, reserveSpot}) {
+function BookingForm({workshopId, selectedSlotId, setConfirmBooking, setWorkshops}) {
     // utkast för bokning, uppdateras medans user skriver
     const [bookingDraft, setBookingDraft] = useState({
         name: "",
@@ -9,17 +9,32 @@ function BookingForm({selectedSlotId, reserveSpot}) {
         message: ""
     });
 
-    // bekräftad bokning, initellt tom
-    const [booking, setBooking] = useState(null);
-
     const handleSubmit = (evt, spotId) => {
         evt.preventDefault();
 
-        reserveSpot(spotId);
+        //reserveSpot(spotId);
+        // ändra i workshops arrayen (vårt data)
+        // sådant att en plats har minskat
+        setWorkshops(current => {
+            
+            //const newWorkshops = [...current]; // DETTA KOPIERAR INTE HELA ARRAYEN
+            const newWorkshops = structuredClone(current); // Detta kopierar hela Workshops arrayen
+            // workshops är en array med objekt som i sin tur har en array med objekt
+            const selectedWorkshop = newWorkshops.find(workshop => workshop.id === workshopId);
+
+            const selectedSlot = selectedWorkshop.find(slot => slot.id === selectedSlotId);
+
+            selectedSlot.placesLeft--; // minska med ett
+
+            return newWorkshops;
+        });
 
         // bekräfta bokningen
         if (bookingDraft.name.length > 0 && bookingDraft.email.includes("@")) {
-            setBooking(current => ({ ...bookingDraft, spotId: spotId}) )
+            setConfirmBooking(current => ({ ...bookingDraft, spotId: spotId}) )
+            
+            // navigera till confirm page
+             
         }
     }
 
@@ -30,7 +45,6 @@ function BookingForm({selectedSlotId, reserveSpot}) {
 
     return (<div>
                 <h2>Boka din plats för {selectedSlotId}</h2>
-                { booking !== null && <p>Bokning är bekräftad! Namn: {booking.name}, Email: {booking.email}</p>}
                 <form onSubmit={(evt) => handleSubmit(evt, selectedSlotId)}>
                     <div>
                         <label htmlFor="name">Namn:</label>

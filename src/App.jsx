@@ -1,12 +1,33 @@
 // src/App.jsx
 import { useState } from "react";
 import { Routes, Route } from "react-router-dom";
-import WorkshopList from "./components/WorkshopList";
-import BookingForm from "./components/BookingForm/BookingForm";
+import ConfirmationCard from "./components/ConfirmationCard";
 import HomePage from "./pages/HomePage";
 import BookingPage from "./pages/BookingPage";
 import DetailsPage from "./pages/DetailsPage";
 import NotFoundPage from "./pages/NotFoundPage";
+
+// Ovning 1 - map
+// const people = [{id: 1, name:"Henry", age: 33}, {id: 2, name: "Konrad", age: 31}, {id: 3, name: "Sara", age: 39}]
+
+// en vanlig varibel fungerar inte om vi vill att react ska regera på förändringar
+// istället ska vi använda en så kallad hook som kallas useState
+// -- let count = 0;
+
+// useState skapar en speciel variabel som react håller koll på
+// Den kommer uppdatera DOMen om förändring sker
+//const [count, setCount] = useState(10); 
+
+// const increment = () => {
+//   //count = count + 1;  // manuel förändring fungerar ej. vi ska använda setCount istället
+//   setCount(count => count + 1); // beskriv hur värdet ska ändras med en funktion
+//   console.log(count) 
+// }
+
+// const decrement = () => {
+//   // Uppgift: minska count med 1 vid knapptryck
+//   setCount(count => count - 1); // beskriv hur värdet ska ändras med en funktion
+// }
 
 // Upgift: refaktorera sid-komponenterna till en egen map
 // som heter `pages`
@@ -23,6 +44,16 @@ import NotFoundPage from "./pages/NotFoundPage";
 // använd map för att skapa en array ["Max, Labrador", "Winston, Dasch"]
 //const dogs = [{name: "Max", breed: "Labrador"}, { name: "Winston", breed: "Dasch"}]
 //dogs.map(dog => `${dog.name}, ${dog.breed}` )
+
+
+// övning 3:
+// Skapa en komponent CongratulationCard
+// Rita ut den i App.jsx
+// komponenten ska ta emot en property 'name' och 'age'
+// function CongratulationCard({ name, age }) {
+//   return <div className="congratulation-card"><h2>Congratulations {name}!</h2> <p>You have turned {age} years old. How awesome!!</p></div>;
+// }
+
 function App() {
 
   // från databas med workshops
@@ -69,10 +100,13 @@ function App() {
     }
   ]);
 
+  const [selectedSlotId, setSelectedSlotId] = useState(null);
+  const [confirmBooking, setConfirmedBooking] = useState(null);
+
   return (<Routes>
     <Route path="/" element={<HomePage workshops={workshops} /> } /> 
-    <Route path="/workshops/:workshopId" element={ <DetailsPage workshops={workshops} /> } />
-    <Route path="/book/:workshopId" element={ <BookingPage workshops={workshops} /> } />
+    <Route path="/workshops/:workshopId" element={ <DetailsPage workshops={workshops} selectedSlotId={selectedSlotId} setSelectedSlotId={setSelectedSlotId}/> } />
+    <Route path="/book/:workshopId" element={ <BookingPage workshops={workshops} setWorkshops={setWorkshops} selectedSlotId={selectedSlotId} setConfirmedBooking={setConfirmedBooking}/> } />
     {/* Uppgift: Lägg till en ny Route: /workshops -> <h1>Workshops Page</h1> */}
     {/* Uppgift: Lägg till en url parameter 'category' och skriv ut `Category: <category-från-url> i WorkshopPage` */}
     {/* <Route path="/workshops/:category?" element={ <WorkshopsPage workshops={workshops}/> } />  */}
@@ -80,90 +114,6 @@ function App() {
     {/* Refaktorera sidan till pages/NotFoundPage.jsx */}
     <Route path="*" element={<NotFoundPage />}/>
   </Routes>);
-
-  const [selectedSlotId, setSelectedSlotId] = useState(null);
-
-
-  const pickWorkshopId = (id) => {
-    // setSelectedSlotId beskriver hur den state-fulla variabel förändras
-    // react kommer då kunna reagera och rita om DOMen
-    setSelectedSlotId(selectedSlotId => id);
-  }
-
-  // möjliggör ta reservera en plats
-  // på angiven workshop
-  const reserveSpot = (workshopId) => {
-    // vi behöver skapa en helt ny array 
-    // med den nya förändringen
-    const newWorkshops = [...workshops];
-    // gå igenom alla workshops
-    for (const workshop of newWorkshops) {
-      // gå igenom alla slots
-      for (const slot of workshop.slots) {
-        // om vi hittar rätt slot som ska reserveras..
-        if (slot.id === workshopId && slot.placesLeft > 0) {
-          slot.placesLeft -= 1; // ta bort ett
-        }
-      }
-    }
-
-    setWorkshops(workshops => newWorkshops)
-  }
-
-
-
-  const title = "Kulturverkstaden";
-
-
-  // Ovning 1 - map
-  // const people = [{id: 1, name:"Henry", age: 33}, {id: 2, name: "Konrad", age: 31}, {id: 3, name: "Sara", age: 39}]
-  
-  // en vanlig varibel fungerar inte om vi vill att react ska regera på förändringar
-  // istället ska vi använda en så kallad hook som kallas useState
-  // -- let count = 0;
-
-  // useState skapar en speciel variabel som react håller koll på
-  // Den kommer uppdatera DOMen om förändring sker
-  const [count, setCount] = useState(10); 
-
-  // const increment = () => {
-  //   //count = count + 1;  // manuel förändring fungerar ej. vi ska använda setCount istället
-  //   setCount(count => count + 1); // beskriv hur värdet ska ändras med en funktion
-  //   console.log(count) 
-  // }
-
-  // const decrement = () => {
-  //   // Uppgift: minska count med 1 vid knapptryck
-  //   setCount(count => count - 1); // beskriv hur värdet ska ändras med en funktion
-  // }
-
-  // hjälpvariabel för att öka läsbarheten
-  const hasChosenWorkshop = selectedSlotId !== null;
-
-  return (
-    <main>
-      {/* <h2>Räknare exempel</h2>
-      <p>Nyvarande count: {count}</p>
-      <button onClick={increment}>+</button>
-      <button onClick={decrement}>-</button> */}
-
-      <h1>{title}</h1>
-
-      {/* Vi kan använder Tenary operator (?) för att sätta vilkor 
-      när något ska ritas ut. <Vilkor> ? <OM sant> : <Om falskt> */}
-      {/* { selectedSlotId !== null ? <BookingForm /> : ''} */}
-
-      {/* Ett alternativ om man ej vill ha ett alternativ för falsk */}
-      {hasChosenWorkshop && <BookingForm selectedSlotId={selectedSlotId} reserveSpot={reserveSpot}/>}
-
-
-      {/* <button onClick={() => pickWorkshopId('test-workshop')}>Test</button> */}
-      <WorkshopList workshops={workshops} selectedSlotId={selectedSlotId} handleWorkshopPick={pickWorkshopId}/>
-
-      {/* Använd map för att rita ut varje person i en paragraph t.ex <p>Henry is 33 years old.</p> */}
-      {/* {people.map(person => <p key={person.id}>{person.name} is {person.age} years old.</p>)} */}
-    </main>
-  );
 }
 
 export default App;
